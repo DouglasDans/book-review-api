@@ -14,13 +14,13 @@ Aplicação backend completa feita para entrega no bootcamp de Spring da DIO
 classDiagram
     class Book {
       +int id
-      +string nome
+      +string title
       +int totalPages
       +string language
       +string description
       +string isbn
       +int edition
-      +string publicationDate
+      +Date publicationDate
     }
     
     class Publisher {
@@ -28,7 +28,7 @@ classDiagram
       +string name
     }
     
-    class Genre {
+    class Category {
       +int id
       +string name
     }
@@ -36,7 +36,7 @@ classDiagram
     class Author {
       +int id
       +string name
-      +string birthDate
+      +Date birthDate
       +string nationality
       +string biography
     }
@@ -57,7 +57,7 @@ classDiagram
     }
     
     Book *-- "1.1" Publisher : publisher
-    Book *-- "1.n" Genre : genres
+    Book *-- "1.n" Category : categories
     Book *-- "1.n" Author : authors
     Book *-- "1.n" Review : reviews
     Review *-- "1.n" User : user
