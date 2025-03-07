@@ -3,17 +3,26 @@ package dev.dans.bookreview.application.service;
 import java.util.List;
 
 import dev.dans.bookreview.application.usecases.author.*;
-import dev.dans.bookreview.domain.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.dans.bookreview.domain.entities.Author;
 
 @Service
 public class AuthorService {
+  @Autowired
   private CreateAuthorUseCase createAuthorUseCase;
+
+  @Autowired
   private  FindAllAuthorsUseCase findAllAuthorsUseCase;
+
+  @Autowired
   private  FindAuthorByIdUseCase findAuthorByIdUseCase;
+
+  @Autowired
   private  UpdateAuthorUseCase updateAuthorUseCase;
+
+  @Autowired
   private  DeleteAuthorUseCase deleteAuthorUseCase;
 
   public Author create(Author author){
