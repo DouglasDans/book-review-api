@@ -2,16 +2,26 @@ package dev.dans.bookreview.application.service;
 
 import dev.dans.bookreview.application.usecases.user.*;
 import dev.dans.bookreview.domain.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserService {
+    @Autowired
     private CreateUserUseCase createUserUseCase;
+
+    @Autowired
     private FindAllUsersUseCase findAllUsersUseCase;
+
+    @Autowired
     private FindUserByIdUseCase findUserByIdUseCase;
+
+    @Autowired
     private UpdateUserUseCase updateUserUseCase;
+
+    @Autowired
     private DeleteUserUseCase deleteUserUseCase;
 
     public User create(User user){

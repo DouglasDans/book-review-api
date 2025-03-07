@@ -7,13 +7,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CreateUserUseCase {
-    private final UserRepository userRepository;
-
-    public CreateUserUseCase(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     public User execute(User user){
-        return this.userRepository.save(user);
+        return userRepository.save(user);
     }
 }

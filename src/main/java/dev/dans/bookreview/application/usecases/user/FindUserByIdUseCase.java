@@ -10,11 +10,8 @@ import java.util.Optional;
 
 @Component
 public class FindUserByIdUseCase {
-    private final UserRepository userRepository;
-
-    public FindUserByIdUseCase(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     public User execute(Long id) throws Exception {
         Optional<User> user = userRepository.findById(id);

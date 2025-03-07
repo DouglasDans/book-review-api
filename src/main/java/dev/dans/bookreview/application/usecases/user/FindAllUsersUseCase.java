@@ -9,11 +9,8 @@ import java.util.List;
 
 @Component
 public class FindAllUsersUseCase {
-    private final UserRepository userRepository;
-
-    public FindAllUsersUseCase(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     public List<User> findAll(){
         return userRepository.findAll();

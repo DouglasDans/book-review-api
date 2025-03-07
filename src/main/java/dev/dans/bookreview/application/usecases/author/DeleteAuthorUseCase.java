@@ -7,7 +7,8 @@ import dev.dans.bookreview.domain.repository.AuthorRepository;
 
 @Component
 public class DeleteAuthorUseCase {
-    private final AuthorRepository authorRepository;
+    @Autowired
+    private AuthorRepository authorRepository;
 
     public DeleteAuthorUseCase(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;

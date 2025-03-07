@@ -7,11 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UpdateUserUseCase {
+    @Autowired
     private UserRepository userRepository;
-
-    public UpdateUserUseCase(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public User execute(User user) {
         return userRepository.save(user);

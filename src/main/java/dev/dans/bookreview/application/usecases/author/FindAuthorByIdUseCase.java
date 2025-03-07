@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import dev.dans.bookreview.domain.entities.User;
 import dev.dans.bookreview.shared.exceptions.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import dev.dans.bookreview.domain.entities.Author;
@@ -11,11 +12,8 @@ import dev.dans.bookreview.domain.repository.AuthorRepository;
 
 @Component
 public class FindAuthorByIdUseCase {
-    private final AuthorRepository authorRepository;
-
-    public FindAuthorByIdUseCase(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
-    }
+    @Autowired
+    private AuthorRepository authorRepository;
 
     public Author execute(Long id) {
         Optional<Author> author = this.authorRepository.findById(id);

@@ -8,11 +8,8 @@ import dev.dans.bookreview.domain.repository.AuthorRepository;
 
 @Component
 public class CreateAuthorUseCase {
-    private final AuthorRepository authorRepository;
-
-    public CreateAuthorUseCase(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
-    }
+    @Autowired
+    private AuthorRepository authorRepository;
 
     public Author execute(Author author) {
         return authorRepository.save(author);
