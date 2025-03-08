@@ -1,35 +1,37 @@
 package dev.dans.bookreview.application.service;
 
-import dev.dans.bookreview.application.usecases.user.*;
+import dev.dans.bookreview.application.usecase.user.*;
 import dev.dans.bookreview.domain.entities.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserService {
-    @Autowired
-    private CreateUserUseCase createUserUseCase;
+    private final CreateUserUseCase createUserUseCase;
+    private final FindAllUsersUseCase findAllUsersUseCase;
+    private final FindUserByIdUseCase findUserByIdUseCase;
+    private final UpdateUserUseCase updateUserUseCase;
+    private final DeleteUserUseCase deleteUserUseCase;
 
-    @Autowired
-    private FindAllUsersUseCase findAllUsersUseCase;
+    public UserService(CreateUserUseCase createUserUseCase,
+                       FindAllUsersUseCase findAllUsersUseCase,
+                       FindUserByIdUseCase findUserByIdUseCase,
+                       UpdateUserUseCase updateUserUseCase,
+                       DeleteUserUseCase deleteUserUseCase) {
+        this.createUserUseCase = createUserUseCase;
+        this.findAllUsersUseCase = findAllUsersUseCase;
+        this.findUserByIdUseCase = findUserByIdUseCase;
+        this.updateUserUseCase = updateUserUseCase;
+        this.deleteUserUseCase = deleteUserUseCase;
+    }
 
-    @Autowired
-    private FindUserByIdUseCase findUserByIdUseCase;
-
-    @Autowired
-    private UpdateUserUseCase updateUserUseCase;
-
-    @Autowired
-    private DeleteUserUseCase deleteUserUseCase;
-
-    public User create(User user){
+    public User create(User user) {
         return createUserUseCase.execute(user);
     }
 
-    public List<User> findAll(){
-        return findAllUsersUseCase.findAll();
+    public List<User> findAll() {
+        return findAllUsersUseCase.execute();
     }
 
     public User findById(Long id) throws Exception {

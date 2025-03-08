@@ -1,17 +1,19 @@
-package dev.dans.bookreview.application.usecases.user;
+package dev.dans.bookreview.application.usecase.user;
 
 import dev.dans.bookreview.domain.entities.User;
 import dev.dans.bookreview.domain.repository.UserRepository;
 import dev.dans.bookreview.shared.exceptions.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
 public class FindUserByIdUseCase {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public FindUserByIdUseCase(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public User execute(Long id) throws Exception {
         Optional<User> user = userRepository.findById(id);
