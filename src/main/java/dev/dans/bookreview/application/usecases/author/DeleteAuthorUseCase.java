@@ -10,10 +10,6 @@ public class DeleteAuthorUseCase {
     @Autowired
     private AuthorRepository authorRepository;
 
-    public DeleteAuthorUseCase(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
-    }
-
     public void execute(Long id) {
         authorRepository.deleteById(id);
     }
