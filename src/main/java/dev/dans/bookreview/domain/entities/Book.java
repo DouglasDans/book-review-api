@@ -38,10 +38,6 @@ public class Book {
     private Date publicationDate;
 
     @OneToMany
-    @JoinColumn(name = "reviews_id")
-    private List<Review> reviews;
-
-    @OneToMany
     @JoinColumn(name = "author_id")
     private List<Author> author;
 
