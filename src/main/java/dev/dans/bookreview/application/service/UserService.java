@@ -2,9 +2,12 @@ package dev.dans.bookreview.application.service;
 
 import dev.dans.bookreview.application.usecase.user.*;
 import dev.dans.bookreview.domain.entities.User;
+import dev.dans.bookreview.infra.adapters.dtos.UserDTO;
+import dev.dans.bookreview.infra.adapters.mappers.UserMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -26,21 +29,28 @@ public class UserService {
         this.deleteUserUseCase = deleteUserUseCase;
     }
 
-    public User create(User user) {
-        return createUserUseCase.execute(user);
+    public UserDTO create(UserDTO userDTO) {
+        User user = UserMapper.toDomain(userDTO);
+        user = createUserUseCase.execute(user);
+        return UserMapper.toJSON(user);
     }
 
-    public List<User> findAll() {
-        return findAllUsersUseCase.execute();
+    public List<UserDTO> findAll() {
+        List<User> users = findAllUsersUseCase.execute();
+        return users.stream()
+                .map(UserMapper::toJSON)
+                .collect(Collectors.toList());
     }
 
-    public User findById(Long id) throws Exception {
-        return findUserByIdUseCase.execute(id);
+    public UserDTO findById(Long id) throws Exception {
+        return UserMapper.toJSON(findUserByIdUseCase.execute(id));
     }
 
-    public User update(User user) throws Exception {
+    public UserDTO update(UserDTO userDTO) throws Exception {
+        User user = UserMapper.toDomain(userDTO);
         findUserByIdUseCase.execute(user.getId());
-        return updateUserUseCase.execute(user);
+        user = updateUserUseCase.execute(user);
+        return UserMapper.toJSON(user);
     }
 
     public void delete(Long id) throws Exception {

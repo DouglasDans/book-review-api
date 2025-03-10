@@ -2,6 +2,7 @@ package dev.dans.bookreview.infra.adapters.controllers;
 
 import dev.dans.bookreview.application.service.UserService;
 import dev.dans.bookreview.domain.entities.User;
+import dev.dans.bookreview.infra.adapters.dtos.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,25 +19,37 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
-        List<User> users = userService.findAll();
+    public ResponseEntity<List<UserDTO>> getUsers() {
+        List<UserDTO> users = userService.findAll();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUsers(@PathVariable Long id) throws Exception {
-        User user = userService.findById(id);
+    public ResponseEntity<UserDTO> getUsers(@PathVariable Long id) throws Exception {
+        UserDTO user = userService.findById(id);
         return ResponseEntity.ok(user);
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.create(user);
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user) {
+        UserDTO createdUser = userService.create(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(createdUser.getId())
                 .toUri();
         return ResponseEntity.created(location).body(createdUser);
+    }
+
+    @PatchMapping
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO user) throws Exception {
+        UserDTO updateUser = userService.update(user);
+        return ResponseEntity.ok(updateUser);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) throws Exception {
+        userService.delete(id);
+        return ResponseEntity.ok().body("User deleted successfully");
     }
 }
