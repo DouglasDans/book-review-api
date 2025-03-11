@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 @Getter
@@ -35,7 +36,7 @@ public class Book {
     private int edition;
 
     @Column(name = "publication_date")
-    private Date publicationDate;
+    private LocalDate publicationDate;
 
     @OneToMany
     @JoinColumn(name = "author_id")

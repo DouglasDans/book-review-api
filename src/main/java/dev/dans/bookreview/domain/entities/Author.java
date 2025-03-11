@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Setter
@@ -20,7 +21,7 @@ public class Author {
     private String name;
 
     @Column(name = "birth_date")
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @Column(name = "nationality")
     private String nationality;
