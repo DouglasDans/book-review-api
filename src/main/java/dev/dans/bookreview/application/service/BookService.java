@@ -4,10 +4,13 @@ import dev.dans.bookreview.application.usecase.book.*;
 import dev.dans.bookreview.domain.entities.Book;
 import dev.dans.bookreview.domain.entities.User;
 import dev.dans.bookreview.domain.repository.BookRepository;
+import dev.dans.bookreview.infra.adapters.dtos.BookDTO;
+import dev.dans.bookreview.infra.adapters.mappers.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -29,21 +32,29 @@ public class BookService {
         this.updateBookUseCase = updateBookUseCase;
     }
 
-    public Book create(Book book) {
-        return createBookUseCase.execute(book);
+    public BookDTO create(BookDTO bookDTO) {
+        Book book = BookMapper.toDomain(bookDTO);
+        book = createBookUseCase.execute(book);
+        return BookMapper.toJSON(book);
     }
 
-    public List<Book> findAll() {
-        return findAllBooksUseCase.execute();
+    public List<BookDTO> findAll() {
+        List<Book> books = findAllBooksUseCase.execute();
+        return books.stream()
+                .map(BookMapper::toJSON)
+                .collect(Collectors.toList());
     }
 
-    public Book findById(Long id) throws Exception {
-        return findBooksByIdUseCase.execute(id);
+    public BookDTO findById(Long id) throws Exception {
+        Book book = findBooksByIdUseCase.execute(id);
+        return BookMapper.toJSON(book);
     }
 
-    public Book update(Book book) throws Exception {
+    public BookDTO update(BookDTO bookDTO) throws Exception {
+        Book book = BookMapper.toDomain(bookDTO);
         findBooksByIdUseCase.execute(book.getId());
-        return updateBookUseCase.execute(book);
+        book = updateBookUseCase.execute(book);
+        return BookMapper.toJSON(book);
     }
 
     public void delete(Long id) throws Exception {

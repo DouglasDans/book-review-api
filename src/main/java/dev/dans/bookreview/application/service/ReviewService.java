@@ -2,9 +2,12 @@ package dev.dans.bookreview.application.service;
 
 import dev.dans.bookreview.application.usecase.review.*;
 import dev.dans.bookreview.domain.entities.Review;
+import dev.dans.bookreview.infra.adapters.dtos.ReviewDTO;
+import dev.dans.bookreview.infra.adapters.mappers.ReviewMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewService {
@@ -26,21 +29,29 @@ public class ReviewService {
         this.updateReviewUseCase = updateReviewUseCase;
     }
 
-    public Review create(Review review) {
-        return createReviewUseCase.execute(review);
+    public ReviewDTO create(ReviewDTO reviewDTO) {
+        Review review = ReviewMapper.toDomain(reviewDTO);
+        review = createReviewUseCase.execute(review);
+        return ReviewMapper.toJSON(review);
     }
 
-    public List<Review> findAll() {
-        return findAllReviewsUseCase.execute();
+    public List<ReviewDTO> findAll() {
+        List<Review> reviews = findAllReviewsUseCase.execute();
+        return reviews.stream()
+                .map(ReviewMapper::toJSON)
+                .collect(Collectors.toList());
     }
 
-    public Review findById(Long id) throws Exception {
-        return findReviewByIdUseCase.execute(id);
+    public ReviewDTO findById(Long id) throws Exception {
+        Review review = findReviewByIdUseCase.execute(id);
+        return ReviewMapper.toJSON(review);
     }
 
-    public Review update(Review review) throws Exception {
+    public ReviewDTO update(ReviewDTO reviewDTO) throws Exception {
+        Review review = ReviewMapper.toDomain(reviewDTO);
         findReviewByIdUseCase.execute(review.getId());
-        return updateReviewUseCase.execute(review);
+        review = updateReviewUseCase.execute(review);
+        return ReviewMapper.toJSON(review);
     }
 
     public void delete(Long id) throws Exception {

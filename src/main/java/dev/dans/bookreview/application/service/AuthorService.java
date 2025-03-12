@@ -3,7 +3,8 @@ package dev.dans.bookreview.application.service;
 import java.util.List;
 
 import dev.dans.bookreview.application.usecase.author.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import dev.dans.bookreview.infra.adapters.dtos.AuthorDTO;
+import dev.dans.bookreview.infra.adapters.mappers.AuthorMapper;
 import org.springframework.stereotype.Service;
 
 import dev.dans.bookreview.domain.entities.Author;
@@ -28,21 +29,29 @@ public class AuthorService {
         this.deleteAuthorUseCase = deleteAuthorUseCase;
     }
 
-    public Author create(Author author){
-        return this.createAuthorUseCase.execute(author);
+    public AuthorDTO create(AuthorDTO authorDTO){
+        Author author = AuthorMapper.toDomain(authorDTO);
+        author = this.createAuthorUseCase.execute(author);
+        return AuthorMapper.toJSON(author);
     }
 
-    public List<Author> findAll(){
-        return this.findAllAuthorsUseCase.execute();
+    public List<AuthorDTO> findAll(){
+        List<Author> authors = this.findAllAuthorsUseCase.execute();
+        return authors.stream()
+                .map(AuthorMapper::toJSON)
+                .collect(java.util.stream.Collectors.toList());
     }
 
-    public Author findById(Long id) throws Exception {
-        return this.findAuthorByIdUseCase.execute(id);
+    public AuthorDTO findById(Long id) throws Exception {
+        Author author = this.findAuthorByIdUseCase.execute(id);
+        return AuthorMapper.toJSON(author);
     }
 
-    public Author update(Author author) throws Exception {
+    public AuthorDTO update(AuthorDTO authorDTO) throws Exception {
+        Author author = AuthorMapper.toDomain(authorDTO);
         this.findAuthorByIdUseCase.execute(author.getId());
-        return this.updateAuthorUseCase.execute(author);
+        author = this.updateAuthorUseCase.execute(author);
+        return AuthorMapper.toJSON(author);
     }
 
     public void delete(Long id) throws Exception {

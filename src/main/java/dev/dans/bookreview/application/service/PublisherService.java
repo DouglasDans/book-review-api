@@ -3,6 +3,8 @@ package dev.dans.bookreview.application.service;
 import dev.dans.bookreview.application.usecase.publisher.*;
 import dev.dans.bookreview.domain.entities.Author;
 import dev.dans.bookreview.domain.entities.Publisher;
+import dev.dans.bookreview.infra.adapters.dtos.PublisherDTO;
+import dev.dans.bookreview.infra.adapters.mappers.PublisherMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,21 +29,29 @@ public class PublisherService {
         this.updatePublisherUseCase = updatePublisherUseCase;
     }
 
-    public Publisher create(Publisher publisher){
-        return createPublisherUseCase.execute(publisher);
+    public PublisherDTO create(PublisherDTO publisherDTO){
+        Publisher publisher = PublisherMapper.toDomain(publisherDTO);
+        publisher = createPublisherUseCase.execute(publisher);
+        return PublisherMapper.toJSON(publisher);
     }
 
-    public List<Publisher> findAll(){
-        return findAllPublishersUseCase.execute();
+    public List<PublisherDTO> findAll(){
+        List<Publisher> publishers = findAllPublishersUseCase.execute();
+        return publishers.stream()
+                .map(PublisherMapper::toJSON)
+                .collect(java.util.stream.Collectors.toList());
     }
 
-    public Publisher findById(Long id) throws Exception {
-        return findPublisherByIdUseCase.execute(id);
+    public PublisherDTO findById(Long id) throws Exception {
+        Publisher publisher = findPublisherByIdUseCase.execute(id);
+        return PublisherMapper.toJSON(publisher);
     }
 
-    public Publisher update(Publisher publisher) throws Exception {
+    public PublisherDTO update(PublisherDTO publisherDTO) throws Exception {
+        Publisher publisher = PublisherMapper.toDomain(publisherDTO);
         findPublisherByIdUseCase.execute(publisher.getId());
-        return updatePublisherUseCase.execute(publisher);
+        publisher = updatePublisherUseCase.execute(publisher);
+        return PublisherMapper.toJSON(publisher);
     }
 
     public void delete(Long id) throws Exception {
