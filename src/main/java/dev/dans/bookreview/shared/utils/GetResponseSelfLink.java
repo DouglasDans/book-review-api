@@ -8,11 +8,4 @@ public class GetResponseSelfLink {
         return ServletUriComponentsBuilder.fromCurrentRequest()
                 .toUriString();
     }
-
-    public static String getSelfLink(Long id){
-        return ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(id)
-                .toUriString();
-    }
 }
