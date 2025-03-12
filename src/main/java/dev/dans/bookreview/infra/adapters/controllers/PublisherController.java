@@ -1,8 +1,7 @@
 package dev.dans.bookreview.infra.adapters.controllers;
 
-import dev.dans.bookreview.application.service.UserService;
-import dev.dans.bookreview.domain.entities.User;
-import dev.dans.bookreview.infra.adapters.dtos.UserDTO;
+import dev.dans.bookreview.application.service.PublisherService;
+import dev.dans.bookreview.infra.adapters.dtos.PublisherDTO;
 import dev.dans.bookreview.infra.response.RestResponse;
 import dev.dans.bookreview.infra.response.RestResponseBuilder;
 import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
@@ -10,22 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/user")
-public class UserController {
+@RequestMapping("api/v1/publisher")
+public class PublisherController {
     @Autowired
-    private UserService userService;
+    private PublisherService publisherService;
 
     @GetMapping
-    public ResponseEntity<RestResponse<List<UserDTO>>> getAllUsers() {
-        List<UserDTO> users = userService.findAll();
+    public ResponseEntity<RestResponse<List<PublisherDTO>>> getAllPublishers() {
+        List<PublisherDTO> publishers = publisherService.findAll();
         return RestResponseBuilder.build(
-                users,
+                publishers,
                 GetResponseSelfLink.getSelfLink(),
                 true,
                 HttpStatus.OK
@@ -33,10 +30,10 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RestResponse<UserDTO>> getUser(@PathVariable Long id) throws Exception {
-        UserDTO user = userService.findById(id);
+    public ResponseEntity<RestResponse<PublisherDTO>> getPublisher(@PathVariable Long id) throws Exception {
+        PublisherDTO publisher = publisherService.findById(id);
         return RestResponseBuilder.build(
-                user,
+                publisher,
                 GetResponseSelfLink.getSelfLink(),
                 true,
                 HttpStatus.OK
@@ -44,10 +41,10 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<RestResponse<UserDTO>> createUser(@RequestBody UserDTO userDTO) {
-        UserDTO createdUser = userService.create(userDTO);
+    public ResponseEntity<RestResponse<PublisherDTO>> createPublisher(PublisherDTO publisher) {
+        PublisherDTO createdPublisher = publisherService.create(publisher);
         return RestResponseBuilder.build(
-                createdUser,
+                createdPublisher,
                 GetResponseSelfLink.getSelfLink(),
                 true,
                 HttpStatus.CREATED
@@ -55,10 +52,10 @@ public class UserController {
     }
 
     @PatchMapping
-    public ResponseEntity<RestResponse<UserDTO>> updateUser(@RequestBody UserDTO userDTO) throws Exception {
-        UserDTO updatedUser = userService.update(userDTO);
+    public ResponseEntity<RestResponse<PublisherDTO>> updatePublisher(PublisherDTO publisher) throws Exception {
+        PublisherDTO updatedPublisher = publisherService.update(publisher);
         return RestResponseBuilder.build(
-                updatedUser,
+                updatedPublisher,
                 GetResponseSelfLink.getSelfLink(),
                 true,
                 HttpStatus.OK
@@ -66,10 +63,10 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<RestResponse<String>> deleteUser(@PathVariable Long id) throws Exception {
-        userService.delete(id);
+    public ResponseEntity<RestResponse<String>> deletePublisher(@PathVariable Long id) throws Exception {
+        publisherService.delete(id);
         return RestResponseBuilder.build(
-                "User deleted successfully",
+                "Review deleted successfully",
                 GetResponseSelfLink.getSelfLink(),
                 true,
                 HttpStatus.OK

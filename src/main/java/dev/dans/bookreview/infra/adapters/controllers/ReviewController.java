@@ -1,8 +1,7 @@
 package dev.dans.bookreview.infra.adapters.controllers;
 
-import dev.dans.bookreview.application.service.UserService;
-import dev.dans.bookreview.domain.entities.User;
-import dev.dans.bookreview.infra.adapters.dtos.UserDTO;
+import dev.dans.bookreview.application.service.ReviewService;
+import dev.dans.bookreview.infra.adapters.dtos.ReviewDTO;
 import dev.dans.bookreview.infra.response.RestResponse;
 import dev.dans.bookreview.infra.response.RestResponseBuilder;
 import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
@@ -10,22 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/user")
-public class UserController {
+@RequestMapping("api/v1/review")
+public class ReviewController {
     @Autowired
-    private UserService userService;
+    private ReviewService reviewService;
 
     @GetMapping
-    public ResponseEntity<RestResponse<List<UserDTO>>> getAllUsers() {
-        List<UserDTO> users = userService.findAll();
+    public ResponseEntity<RestResponse<List<ReviewDTO>>> getAllReviews() {
+        List<ReviewDTO> reviews = reviewService.findAll();
         return RestResponseBuilder.build(
-                users,
+                reviews,
                 GetResponseSelfLink.getSelfLink(),
                 true,
                 HttpStatus.OK
@@ -33,10 +30,10 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RestResponse<UserDTO>> getUser(@PathVariable Long id) throws Exception {
-        UserDTO user = userService.findById(id);
+    public ResponseEntity<RestResponse<ReviewDTO>> getReview(@PathVariable Long id) throws Exception {
+        ReviewDTO review = reviewService.findById(id);
         return RestResponseBuilder.build(
-                user,
+                review,
                 GetResponseSelfLink.getSelfLink(),
                 true,
                 HttpStatus.OK
@@ -44,10 +41,10 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<RestResponse<UserDTO>> createUser(@RequestBody UserDTO userDTO) {
-        UserDTO createdUser = userService.create(userDTO);
+    public ResponseEntity<RestResponse<ReviewDTO>> createReview(@RequestBody ReviewDTO review) {
+        ReviewDTO createdReview = reviewService.create(review);
         return RestResponseBuilder.build(
-                createdUser,
+                createdReview,
                 GetResponseSelfLink.getSelfLink(),
                 true,
                 HttpStatus.CREATED
@@ -55,10 +52,10 @@ public class UserController {
     }
 
     @PatchMapping
-    public ResponseEntity<RestResponse<UserDTO>> updateUser(@RequestBody UserDTO userDTO) throws Exception {
-        UserDTO updatedUser = userService.update(userDTO);
+    public ResponseEntity<RestResponse<ReviewDTO>> updateReview(@RequestBody ReviewDTO review) throws Exception {
+        ReviewDTO updatedReview = reviewService.update(review);
         return RestResponseBuilder.build(
-                updatedUser,
+                updatedReview,
                 GetResponseSelfLink.getSelfLink(),
                 true,
                 HttpStatus.OK
@@ -66,10 +63,10 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<RestResponse<String>> deleteUser(@PathVariable Long id) throws Exception {
-        userService.delete(id);
+    public ResponseEntity<RestResponse<String>> deleteReview(@PathVariable Long id) throws Exception {
+        reviewService.delete(id);
         return RestResponseBuilder.build(
-                "User deleted successfully",
+                "Review deleted successfully",
                 GetResponseSelfLink.getSelfLink(),
                 true,
                 HttpStatus.OK
