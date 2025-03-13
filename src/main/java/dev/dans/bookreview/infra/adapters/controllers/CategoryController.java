@@ -1,9 +1,11 @@
 package dev.dans.bookreview.infra.adapters.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import dev.dans.bookreview.application.service.CategoryService;
 import dev.dans.bookreview.infra.adapters.dtos.CategoryDTO;
 import dev.dans.bookreview.infra.response.RestResponse;
 import dev.dans.bookreview.infra.response.RestResponseBuilder;
+import dev.dans.bookreview.infra.views.Views;
 import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +43,9 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<RestResponse<CategoryDTO>> createCategory(CategoryDTO category) {
+    public ResponseEntity<RestResponse<CategoryDTO>> createCategory(
+            @RequestBody @JsonView(Views.CategoryRequest.class) CategoryDTO category
+    ) {
         CategoryDTO createdCategory = categoryService.create(category);
         return RestResponseBuilder.build(
                 createdCategory,

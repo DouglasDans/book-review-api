@@ -1,9 +1,11 @@
 package dev.dans.bookreview.infra.adapters.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import dev.dans.bookreview.application.service.ReviewService;
 import dev.dans.bookreview.infra.adapters.dtos.ReviewDTO;
 import dev.dans.bookreview.infra.response.RestResponse;
 import dev.dans.bookreview.infra.response.RestResponseBuilder;
+import dev.dans.bookreview.infra.views.Views;
 import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +43,9 @@ public class ReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<RestResponse<ReviewDTO>> createReview(@RequestBody ReviewDTO review) {
+    public ResponseEntity<RestResponse<ReviewDTO>> createReview(
+            @RequestBody @JsonView(Views.ReviewRequest.class) ReviewDTO review
+    ) {
         ReviewDTO createdReview = reviewService.create(review);
         return RestResponseBuilder.build(
                 createdReview,

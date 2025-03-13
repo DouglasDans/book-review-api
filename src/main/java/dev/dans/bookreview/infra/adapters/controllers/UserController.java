@@ -1,10 +1,12 @@
 package dev.dans.bookreview.infra.adapters.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import dev.dans.bookreview.application.service.UserService;
 import dev.dans.bookreview.domain.entities.User;
 import dev.dans.bookreview.infra.adapters.dtos.UserDTO;
 import dev.dans.bookreview.infra.response.RestResponse;
 import dev.dans.bookreview.infra.response.RestResponseBuilder;
+import dev.dans.bookreview.infra.views.Views;
 import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,7 +46,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<RestResponse<UserDTO>> createUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<RestResponse<UserDTO>> createUser(
+            @RequestBody @JsonView(Views.UserRequest.class) UserDTO userDTO
+    ) {
         UserDTO createdUser = userService.create(userDTO);
         return RestResponseBuilder.build(
                 createdUser,

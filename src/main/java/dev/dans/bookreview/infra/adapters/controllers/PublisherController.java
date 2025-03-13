@@ -1,9 +1,11 @@
 package dev.dans.bookreview.infra.adapters.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import dev.dans.bookreview.application.service.PublisherService;
 import dev.dans.bookreview.infra.adapters.dtos.PublisherDTO;
 import dev.dans.bookreview.infra.response.RestResponse;
 import dev.dans.bookreview.infra.response.RestResponseBuilder;
+import dev.dans.bookreview.infra.views.Views;
 import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +43,9 @@ public class PublisherController {
     }
 
     @PostMapping
-    public ResponseEntity<RestResponse<PublisherDTO>> createPublisher(PublisherDTO publisher) {
+    public ResponseEntity<RestResponse<PublisherDTO>> createPublisher(
+            @RequestBody @JsonView(Views.PublisherRequest.class) PublisherDTO publisher
+    ) {
         PublisherDTO createdPublisher = publisherService.create(publisher);
         return RestResponseBuilder.build(
                 createdPublisher,

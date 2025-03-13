@@ -1,12 +1,14 @@
 package dev.dans.bookreview.infra.adapters.dtos;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.fasterxml.jackson.annotation.JsonView;
+import dev.dans.bookreview.infra.views.Views;
 import lombok.Data;
 
 @Data
 public class CategoryDTO {
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @JsonView(Views.BookRequest.class)
     private Long id;
 
+    @JsonView(Views.CategoryRequest.class)
     private String name;
 }

@@ -1,9 +1,11 @@
 package dev.dans.bookreview.infra.adapters.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import dev.dans.bookreview.application.service.AuthorService;
 import dev.dans.bookreview.infra.adapters.dtos.AuthorDTO;
 import dev.dans.bookreview.infra.response.RestResponse;
 import dev.dans.bookreview.infra.response.RestResponseBuilder;
+import dev.dans.bookreview.infra.views.Views;
 import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,7 +44,9 @@ public class AuthorController {
     }
 
     @PostMapping
-    public ResponseEntity<RestResponse<AuthorDTO>> createAuthor(AuthorDTO author) {
+    public ResponseEntity<RestResponse<AuthorDTO>> createAuthor(
+            @RequestBody @JsonView(Views.AuthorRequest.class) AuthorDTO author
+    ) {
         AuthorDTO createdAuthor = authorService.create(author);
         return RestResponseBuilder.build(
                 createdAuthor,
