@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -38,15 +37,15 @@ public class Book {
     @Column(name = "publication_date")
     private LocalDate publicationDate;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "author_id")
-    private List<Author> author;
+    private Author author;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "category_id")
-    private List<Category> category;
+    private Category category;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 }

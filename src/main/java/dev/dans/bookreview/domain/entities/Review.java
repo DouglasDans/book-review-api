@@ -23,11 +23,11 @@ public class Review {
     @Column(name = "comment")
     private String comment;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
 }
