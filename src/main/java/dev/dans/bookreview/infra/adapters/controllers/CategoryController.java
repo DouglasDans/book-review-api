@@ -48,7 +48,7 @@ public class CategoryController {
     }
 
     @CrossOrigin
-    @PostMapping
+    @PostMapping()
     @Transactional
     public ResponseEntity<RestResponse<CategoryDTO>> createCategory(
             @RequestBody @JsonView(Views.CategoryRequest.class) CategoryDTO category
@@ -62,8 +62,13 @@ public class CategoryController {
         );
     }
 
-    @PatchMapping
-    public ResponseEntity<RestResponse<CategoryDTO>> updateCategory(CategoryDTO category) throws Exception {
+    @CrossOrigin
+    @PatchMapping("/{id}")
+    public ResponseEntity<RestResponse<CategoryDTO>> updateCategory(
+            @PathVariable Long id,
+            @RequestBody @JsonView(Views.CategoryRequest.class) CategoryDTO category
+    ) throws Exception {
+        category.setId(id);
         CategoryDTO updatedCategory = categoryService.update(category);
         return RestResponseBuilder.build(
                 updatedCategory,
@@ -73,6 +78,7 @@ public class CategoryController {
         );
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public ResponseEntity<RestResponse<String>> deleteCategory(@PathVariable Long id) throws Exception {
         categoryService.delete(id);

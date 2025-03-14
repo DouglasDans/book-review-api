@@ -64,9 +64,13 @@ public class AuthorController {
     }
 
     @CrossOrigin
-    @PatchMapping
+    @PatchMapping("/{id}")
     @Transactional
-    public ResponseEntity<RestResponse<AuthorDTO>> updateAuthor(AuthorDTO author) throws Exception {
+    public ResponseEntity<RestResponse<AuthorDTO>> updateAuthor(
+            @PathVariable Long id,
+            @RequestBody @JsonView(Views.AuthorRequest.class) AuthorDTO author
+    ) throws Exception {
+        author.setId(id);
         AuthorDTO updatedAuthor = authorService.update(author);
         return RestResponseBuilder.build(
                 updatedAuthor,

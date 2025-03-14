@@ -63,9 +63,13 @@ public class PublisherController {
     }
 
     @CrossOrigin
-    @PatchMapping
+    @PatchMapping("/{id}")
     @Transactional
-    public ResponseEntity<RestResponse<PublisherDTO>> updatePublisher(PublisherDTO publisher) throws Exception {
+    public ResponseEntity<RestResponse<PublisherDTO>> updatePublisher(
+            @PathVariable Long id,
+            @RequestBody @JsonView(Views.PublisherRequest.class) PublisherDTO publisher
+    ) throws Exception {
+        publisher.setId(id);
         PublisherDTO updatedPublisher = publisherService.update(publisher);
         return RestResponseBuilder.build(
                 updatedPublisher,

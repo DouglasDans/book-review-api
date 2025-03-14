@@ -66,9 +66,13 @@ public class UserController {
     }
 
     @CrossOrigin
-    @PatchMapping
+    @PatchMapping("/{id}")
     @Transactional
-    public ResponseEntity<RestResponse<UserDTO>> updateUser(@RequestBody UserDTO userDTO) throws Exception {
+    public ResponseEntity<RestResponse<UserDTO>> updateUser(
+            @PathVariable Long id,
+            @RequestBody @JsonView(Views.UserRequest.class) UserDTO userDTO
+    ) throws Exception {
+        userDTO.setId(id);
         UserDTO updatedUser = userService.update(userDTO);
         return RestResponseBuilder.build(
                 updatedUser,

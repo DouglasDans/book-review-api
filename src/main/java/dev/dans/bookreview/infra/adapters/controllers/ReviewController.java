@@ -63,9 +63,13 @@ public class ReviewController {
     }
 
     @CrossOrigin
-    @PatchMapping
+    @PatchMapping("/{id}")
     @Transactional
-    public ResponseEntity<RestResponse<ReviewDTO>> updateReview(@RequestBody ReviewDTO review) throws Exception {
+    public ResponseEntity<RestResponse<ReviewDTO>> updateReview(
+            @PathVariable Long id,
+            @RequestBody @JsonView(Views.ReviewRequest.class) ReviewDTO review
+    ) throws Exception {
+        review.setId(id);
         ReviewDTO updatedReview = reviewService.update(review);
         return RestResponseBuilder.build(
                 updatedReview,

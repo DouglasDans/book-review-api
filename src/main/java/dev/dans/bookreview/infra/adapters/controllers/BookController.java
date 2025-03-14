@@ -63,9 +63,13 @@ public class BookController {
     }
 
     @CrossOrigin
-    @PatchMapping
+    @PatchMapping("/{id}")
     @Transactional
-    public ResponseEntity<RestResponse<BookDTO>> updateBook(BookDTO book) throws Exception {
+    public ResponseEntity<RestResponse<BookDTO>> updateBook(
+            @PathVariable Long id,
+            @RequestBody @JsonView(Views.BookRequest.class) BookDTO book
+    ) throws Exception {
+        book.setId(id);
         BookDTO updatedBook = bookService.update(book);
         return RestResponseBuilder.build(
                 updatedBook,
