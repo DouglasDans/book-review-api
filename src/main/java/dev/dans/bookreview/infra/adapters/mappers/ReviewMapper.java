@@ -9,6 +9,7 @@ public class ReviewMapper {
     public static Review toDomain(ReviewDTO reviewDTO){
         Review review = new Review();
         review.setId(reviewDTO.getId());
+        review.setTitle(reviewDTO.getTitle());
         review.setRating(reviewDTO.getRating());
         review.setComment(reviewDTO.getComment());
         review.setUser(UserMapper.toDomain(reviewDTO.getUser()));
@@ -19,6 +20,7 @@ public class ReviewMapper {
     public static ReviewDTO toJSON(Review review){
         ReviewDTO reviewDTO = new ReviewDTO();
         reviewDTO.setId(review.getId());
+        reviewDTO.setTitle(review.getTitle());
         reviewDTO.setRating(review.getRating());
         reviewDTO.setComment(review.getComment());
         reviewDTO.setUser(UserMapper.toJSON(review.getUser()));
