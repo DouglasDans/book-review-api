@@ -10,6 +10,7 @@ import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,9 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @CrossOrigin
     @GetMapping
+    @Transactional
     public ResponseEntity<RestResponse<List<CategoryDTO>>> getAllCategories(){
         List<CategoryDTO> categories = categoryService.findAll();
         return RestResponseBuilder.build(
@@ -31,7 +34,9 @@ public class CategoryController {
         );
     }
 
+    @CrossOrigin
     @GetMapping("/{id}")
+    @Transactional
     public ResponseEntity<RestResponse<CategoryDTO>> getCategory(@PathVariable Long id) throws Exception {
         CategoryDTO category = categoryService.findById(id);
         return RestResponseBuilder.build(
@@ -42,7 +47,9 @@ public class CategoryController {
         );
     }
 
+    @CrossOrigin
     @PostMapping
+    @Transactional
     public ResponseEntity<RestResponse<CategoryDTO>> createCategory(
             @RequestBody @JsonView(Views.CategoryRequest.class) CategoryDTO category
     ) {

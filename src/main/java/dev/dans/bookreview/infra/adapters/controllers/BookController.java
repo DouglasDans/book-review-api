@@ -10,6 +10,7 @@ import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,9 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    @CrossOrigin
     @GetMapping
+    @Transactional
     public ResponseEntity<RestResponse<List<BookDTO>>> getAllBooks() {
         List<BookDTO> books = bookService.findAll();
         return RestResponseBuilder.build(
@@ -31,7 +34,9 @@ public class BookController {
         );
     }
 
+    @CrossOrigin
     @GetMapping("/{id}")
+    @Transactional
     public ResponseEntity<RestResponse<BookDTO>> getBook(@PathVariable Long id) throws Exception {
         BookDTO book = bookService.findById(id);
         return RestResponseBuilder.build(
@@ -42,7 +47,9 @@ public class BookController {
         );
     }
 
+    @CrossOrigin
     @PostMapping
+    @Transactional
     public ResponseEntity<RestResponse<BookDTO>> createBook(
             @RequestBody @JsonView(Views.BookRequest.class) BookDTO book
     ) {
@@ -55,7 +62,9 @@ public class BookController {
         );
     }
 
+    @CrossOrigin
     @PatchMapping
+    @Transactional
     public ResponseEntity<RestResponse<BookDTO>> updateBook(BookDTO book) throws Exception {
         BookDTO updatedBook = bookService.update(book);
         return RestResponseBuilder.build(
@@ -66,7 +75,9 @@ public class BookController {
         );
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<RestResponse<String>> deleteBook(@PathVariable Long id) throws Exception {
         bookService.delete(id);
         return RestResponseBuilder.build(

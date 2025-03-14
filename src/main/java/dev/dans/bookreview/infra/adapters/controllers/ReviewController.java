@@ -10,6 +10,7 @@ import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,9 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
+    @CrossOrigin
     @GetMapping
+    @Transactional
     public ResponseEntity<RestResponse<List<ReviewDTO>>> getAllReviews() {
         List<ReviewDTO> reviews = reviewService.findAll();
         return RestResponseBuilder.build(
@@ -31,7 +34,9 @@ public class ReviewController {
         );
     }
 
+    @CrossOrigin
     @GetMapping("/{id}")
+    @Transactional
     public ResponseEntity<RestResponse<ReviewDTO>> getReview(@PathVariable Long id) throws Exception {
         ReviewDTO review = reviewService.findById(id);
         return RestResponseBuilder.build(
@@ -42,7 +47,9 @@ public class ReviewController {
         );
     }
 
+    @CrossOrigin
     @PostMapping
+    @Transactional
     public ResponseEntity<RestResponse<ReviewDTO>> createReview(
             @RequestBody @JsonView(Views.ReviewRequest.class) ReviewDTO review
     ) {
@@ -55,7 +62,9 @@ public class ReviewController {
         );
     }
 
+    @CrossOrigin
     @PatchMapping
+    @Transactional
     public ResponseEntity<RestResponse<ReviewDTO>> updateReview(@RequestBody ReviewDTO review) throws Exception {
         ReviewDTO updatedReview = reviewService.update(review);
         return RestResponseBuilder.build(
@@ -66,7 +75,9 @@ public class ReviewController {
         );
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<RestResponse<String>> deleteReview(@PathVariable Long id) throws Exception {
         reviewService.delete(id);
         return RestResponseBuilder.build(

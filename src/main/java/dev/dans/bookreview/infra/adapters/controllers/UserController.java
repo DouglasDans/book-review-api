@@ -11,6 +11,7 @@ import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,7 +24,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @CrossOrigin
     @GetMapping
+    @Transactional
     public ResponseEntity<RestResponse<List<UserDTO>>> getAllUsers() {
         List<UserDTO> users = userService.findAll();
         return RestResponseBuilder.build(
@@ -34,7 +37,9 @@ public class UserController {
         );
     }
 
+    @CrossOrigin
     @GetMapping("/{id}")
+    @Transactional
     public ResponseEntity<RestResponse<UserDTO>> getUser(@PathVariable Long id) throws Exception {
         UserDTO user = userService.findById(id);
         return RestResponseBuilder.build(
@@ -45,7 +50,9 @@ public class UserController {
         );
     }
 
+    @CrossOrigin
     @PostMapping
+    @Transactional
     public ResponseEntity<RestResponse<UserDTO>> createUser(
             @RequestBody @JsonView(Views.UserRequest.class) UserDTO userDTO
     ) {
@@ -58,7 +65,9 @@ public class UserController {
         );
     }
 
+    @CrossOrigin
     @PatchMapping
+    @Transactional
     public ResponseEntity<RestResponse<UserDTO>> updateUser(@RequestBody UserDTO userDTO) throws Exception {
         UserDTO updatedUser = userService.update(userDTO);
         return RestResponseBuilder.build(
@@ -69,7 +78,9 @@ public class UserController {
         );
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<RestResponse<String>> deleteUser(@PathVariable Long id) throws Exception {
         userService.delete(id);
         return RestResponseBuilder.build(
