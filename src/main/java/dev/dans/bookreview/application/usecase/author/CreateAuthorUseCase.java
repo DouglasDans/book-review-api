@@ -1,6 +1,6 @@
 package dev.dans.bookreview.application.usecase.author;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import dev.dans.bookreview.shared.exceptions.ResourceDataNullException;
 import org.springframework.stereotype.Component;
 
 import dev.dans.bookreview.domain.entities.Author;
@@ -15,6 +15,13 @@ public class CreateAuthorUseCase {
     }
 
     public Author execute(Author author) {
+        verifyNullAttributes(author);
         return authorRepository.save(author);
+    }
+
+    private void verifyNullAttributes(Author author) {
+        if (author.getName() == null || author.getName().isEmpty()) {
+            throw new ResourceDataNullException("Author name");
+        }
     }
 }

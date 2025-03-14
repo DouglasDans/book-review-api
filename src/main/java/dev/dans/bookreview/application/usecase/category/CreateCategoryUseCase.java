@@ -2,6 +2,7 @@ package dev.dans.bookreview.application.usecase.category;
 
 import dev.dans.bookreview.domain.entities.Category;
 import dev.dans.bookreview.domain.repository.CategoryRepository;
+import dev.dans.bookreview.shared.exceptions.ResourceDataNullException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +14,13 @@ public class CreateCategoryUseCase {
     }
 
     public Category execute(Category category) {
+        verifyNullAttributes(category);
         return categoryRepository.save(category);
+    }
+
+    private void verifyNullAttributes(Category category) {
+        if (category.getName() == null || category.getName().isEmpty()) {
+            throw new ResourceDataNullException("Category name");
+        }
     }
 }

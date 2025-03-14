@@ -2,6 +2,7 @@ package dev.dans.bookreview.infra.handlers;
 
 import dev.dans.bookreview.infra.response.RestResponse;
 import dev.dans.bookreview.infra.response.RestResponseBuilder;
+import dev.dans.bookreview.shared.exceptions.ResourceDataNullException;
 import dev.dans.bookreview.shared.exceptions.ResourceNotFoundException;
 import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
 import org.slf4j.Logger;
@@ -23,6 +24,16 @@ public class GlobalExceptionHandler {
                 GetResponseSelfLink.getSelfLink(),
                 false,
                 HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(ResourceDataNullException.class)
+    public ResponseEntity<RestResponse<String>> resourceDataNull(ResourceDataNullException ex) {
+        return RestResponseBuilder.build(
+                ex.getMessage(),
+                GetResponseSelfLink.getSelfLink(),
+                false,
+                HttpStatus.BAD_REQUEST
         );
     }
 
