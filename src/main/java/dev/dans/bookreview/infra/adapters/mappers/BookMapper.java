@@ -18,7 +18,7 @@ public class BookMapper {
         book.setDescription(bookDTO.getDescription());
         book.setIsbn(bookDTO.getIsbn());
         book.setEdition(bookDTO.getEdition());
-        book.setPublicationDate(LocalDate.parse(bookDTO.getPublicationDate()));
+        book.setPublicationDate(bookDTO.getPublicationDate() != null ? LocalDate.parse(bookDTO.getPublicationDate()) : null);
         book.setAuthor(AuthorMapper.toDomain(bookDTO.getAuthor()));
         book.setCategory(CategoryMapper.toDomain(bookDTO.getCategory()));
         book.setPublisher(PublisherMapper.toDomain(bookDTO.getPublisher()));
@@ -34,7 +34,7 @@ public class BookMapper {
         bookDTO.setDescription(book.getDescription());
         bookDTO.setIsbn(book.getIsbn());
         bookDTO.setEdition(book.getEdition());
-        bookDTO.setPublicationDate(book.getPublicationDate().toString());
+        bookDTO.setPublicationDate(book.getPublicationDate() != null ? book.getPublicationDate().toString() : null);
         bookDTO.setAuthor(AuthorMapper.toJSON(book.getAuthor()));
         bookDTO.setCategory(CategoryMapper.toJSON(book.getCategory()));
         bookDTO.setPublisher(PublisherMapper.toJSON(book.getPublisher()));
