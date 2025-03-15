@@ -19,3 +19,8 @@ spring:
       settings:
         trace: false
         web-allow-others: false
+security:
+  config:
+    prefix: Bearer
+    key: eyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2Y
+    expiration: 3600000
