@@ -7,6 +7,7 @@ import dev.dans.bookreview.infra.adapters.dtos.SessionDTO;
 import dev.dans.bookreview.infra.security.JWTBuilder;
 import dev.dans.bookreview.infra.security.JWTObject;
 import dev.dans.bookreview.infra.security.SecurityConfig;
+import dev.dans.bookreview.shared.exceptions.AuthenticationFailedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +25,12 @@ public class LoginUseCase {
     public SessionDTO execute(LoginDTO login){
         User user = userRepository.findUserByEmail(login.getEmail());
 
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
         if (!new BCryptPasswordEncoder().matches(login.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Senha inválida");
+            throw new RuntimeException("Invalid credentials");
         }
 
         SessionDTO session = new SessionDTO();
@@ -34,7 +39,7 @@ public class LoginUseCase {
         JWTObject jwt = new JWTObject();
         jwt.setIssuedAt(new Date(System.currentTimeMillis()));
         jwt.setExpiration(new Date(System.currentTimeMillis() + SecurityConfig.EXPIRATION));
-        jwt.setRoles(user.getRole().name());
+        jwt.setRoles(List.of(user.getRole().name()));
         session.setToken(JWTBuilder.build(SecurityConfig.PREFIX, SecurityConfig.KEY, jwt));
         return session;
     }

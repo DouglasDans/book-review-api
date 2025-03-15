@@ -3,6 +3,7 @@ package dev.dans.bookreview.application.service;
 import dev.dans.bookreview.application.usecase.auth.LoginUseCase;
 import dev.dans.bookreview.infra.adapters.dtos.LoginDTO;
 import dev.dans.bookreview.infra.adapters.dtos.SessionDTO;
+import dev.dans.bookreview.shared.exceptions.AuthenticationFailedException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,10 @@ public class AuthService {
     }
 
     public SessionDTO login(LoginDTO login) {
-        return loginUseCase.execute(login);
+        try {
+            return loginUseCase.execute(login);
+        } catch (Exception e) {
+            throw new AuthenticationFailedException("Failed to login, " + e.getMessage());
+        }
     }
 }
