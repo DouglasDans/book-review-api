@@ -2,10 +2,10 @@
 Aplicação backend completa feita para entrega no bootcamp de Spring da DIO.
 
 ### Regras de Negócio do Projeto
-- Administradores podem cadastrar, atualizar, deletar e listar livros, autores, editoras e gêneros e criar reviews dos livros.
-- Usuários comuns podem apenas ler livros, editoras, autores e gêneros e criar reviews dos livros.
-- Para qualquer operação além da leitura, necessita de autenticação.
-- Somente o Administrador pode ler ou alterar os usuários cadastrados.
+- Administradores tem acesso total e podem cadastrar, atualizar, deletar e listar livros, autores, editoras, categorias, gêneros, e usuários.
+- Usuários autenticados comuns podem apenas ler livros, editoras, categorias, autores, usuários e criar avaliações dos livros.
+- Usuários não autenticados podem apenas ler livros, editoras, categorias, autores e avaliações.
+- Somente o Administrador pode cadastrar, alterar e deletar os usuários cadastrados.
 
 ### Tecnologias Utilizadas
 - Docker
