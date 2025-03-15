@@ -8,7 +8,7 @@ public class JWTObject {
     private String subject;
     private Date issuedAt;
     private Date expiration;
-    private String roles;
+    private List<String> roles;
 
     public String getSubject() {
         return subject;
@@ -34,11 +34,11 @@ public class JWTObject {
         this.expiration = expiration;
     }
 
-    public String getRoles() {
+    public List<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(String roles) {
+    public void setRoles(List<String> roles) {
         this.roles = roles;
     }
 }
