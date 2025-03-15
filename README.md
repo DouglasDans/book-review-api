@@ -8,8 +8,7 @@ Aplicação backend completa feita para entrega no bootcamp de Spring da DIO.
 - Somente o Administrador pode cadastrar, alterar e deletar os usuários cadastrados.
 
 ### Tecnologias Utilizadas
-- Docker
-- Postgres
+- Postgres(prod), H2 Database(dev)
 - Spring Boot
 - Spring Security
 - Json Web Token
