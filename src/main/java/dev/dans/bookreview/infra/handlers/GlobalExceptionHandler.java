@@ -2,6 +2,7 @@ package dev.dans.bookreview.infra.handlers;
 
 import dev.dans.bookreview.infra.response.RestResponse;
 import dev.dans.bookreview.infra.response.RestResponseBuilder;
+import dev.dans.bookreview.shared.exceptions.AuthenticationFailedException;
 import dev.dans.bookreview.shared.exceptions.ResourceDataNullException;
 import dev.dans.bookreview.shared.exceptions.ResourceNotFoundException;
 import dev.dans.bookreview.shared.utils.GetResponseSelfLink;
@@ -20,6 +21,26 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 public class GlobalExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<RestResponse<String>> resourceDataNull(HttpRequestMethodNotSupportedException ex) {
+        return RestResponseBuilder.build(
+                "Method Not Allowed",
+                GetResponseSelfLink.getSelfLink(),
+                false,
+                HttpStatus.METHOD_NOT_ALLOWED
+        );
+    }
+
+    @ExceptionHandler(AuthenticationFailedException.class)
+    public ResponseEntity<RestResponse<String>> authFailed(AuthenticationFailedException ex) {
+        return RestResponseBuilder.build(
+                ex.getMessage(),
+                GetResponseSelfLink.getSelfLink(),
+                false,
+                HttpStatus.FORBIDDEN
+        );
+    }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<RestResponse<String>> resourceNotFound(ResourceNotFoundException ex) {
@@ -41,15 +62,6 @@ public class GlobalExceptionHandler {
         );
     }
 
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<RestResponse<String>> resourceDataNull(HttpRequestMethodNotSupportedException ex) {
-        return RestResponseBuilder.build(
-                "Method Not Allowed",
-                GetResponseSelfLink.getSelfLink(),
-                false,
-                HttpStatus.METHOD_NOT_ALLOWED
-        );
-    }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<RestResponse<String>> resourceDataNull(DataIntegrityViolationException ex) {

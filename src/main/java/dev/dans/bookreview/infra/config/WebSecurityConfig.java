@@ -1,6 +1,8 @@
 package dev.dans.bookreview.infra.config;
 
 import dev.dans.bookreview.domain.enums.UserRole;
+import dev.dans.bookreview.infra.handlers.CustomAccessDeniedHandler;
+import dev.dans.bookreview.infra.security.JWTFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -38,6 +41,17 @@ public class WebSecurityConfig {
                                 HttpMethod.GET,
                                 "/api/v1/user/**"
                         ).hasAnyAuthority(UserRole.ROLE_ADMIN.name(), UserRole.ROLE_USER.name())
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/v1/review/**"
+                        ).hasAnyAuthority(UserRole.ROLE_ADMIN.name(), UserRole.ROLE_USER.name())
+                        .requestMatchers(
+                                "/api/v1/author/**",
+                                "/api/v1/book/**",
+                                "/api/v1/category/**",
+                                "/api/v1/publisher/**",
+                                "/api/v1/review/**"
+                        ).hasAnyAuthority(UserRole.ROLE_ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf
@@ -48,8 +62,11 @@ public class WebSecurityConfig {
                 )
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                 .exceptionHandling(exception -> exception
+                        .accessDeniedHandler(new CustomAccessDeniedHandler())
                 );
-
+        http.addFilterAfter(new JWTFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
