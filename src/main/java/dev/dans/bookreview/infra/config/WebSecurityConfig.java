@@ -1,5 +1,6 @@
 package dev.dans.bookreview.infra.config;
 
+import dev.dans.bookreview.domain.enums.UserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,7 +24,20 @@ public class WebSecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("h2-console/**").permitAll()
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/v1/author/**",
+                                "/api/v1/book/**",
+                                "/api/v1/category/**",
+                                "/api/v1/publisher/**",
+                                "/api/v1/review/**"
+                        ).permitAll()
+                        .requestMatchers("/auth").permitAll()
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/v1/user/**"
+                        ).hasAnyAuthority(UserRole.ROLE_ADMIN.name(), UserRole.ROLE_USER.name())
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf
@@ -31,7 +45,11 @@ public class WebSecurityConfig {
                 )
                 .headers(headers -> headers
                         .frameOptions(frame -> frame.sameOrigin())
+                )
+                .sessionManagement(sess -> sess
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
+
         return http.build();
     }
 
