@@ -17,9 +17,8 @@ Aplicação backend completa feita para entrega no bootcamp de Spring da DIO.
 
 ### Como executar
 - Clone o repositório
-- Execute o comando `gradlew build` na raíz do projeto
-- Caso tenha Docker execute o comando `docker-compose up` na raiz do projeto
-- Caso não tenha Docker, execute o comando `java -jar build/libs/book-reviews-api-0.0.1-SNAPSHOT.jar` na raiz do projeto
+- Caso tenha Docker execute o comando `docker compose up`
+- Caso queira rodar nativamente, execute o comando `gradle build && java -jar build/libs/book-reviews-api-0.0.1-SNAPSHOT.jar` na raiz do projeto
 
 ### Endpoints
 - **Swagger:** http://localhost:8080/swagger-ui.html

@@ -1,4 +1,8 @@
-FROM amazoncorretto:23
+FROM gradle:8.13.0-jdk23
+
+COPY . .
+
+RUN gradle build
 
 ENV JAR_FILE=build/libs/*.jar
 
