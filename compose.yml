@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - rv-network
+
+  backend:
+    depends_on:
+      - postgres
+    build: .
+    environment:
+      - PGURL=postgresql://postgres:5432/postgres
+      - SPRING_PROFILES_ACTIVE=prd
+      - PGUSER=postgres
+      - PGPASSWORD=postgres
+      - AUTH_KEY=eyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2YeyJhbGciOiJIaVqpZBr1OWB2cpWxGlReDmVpOYuYWhVgDqu2Y
+    ports:
+      - 8080:8080
+    networks:
+      - rv-network
+
+networks:
+  rv-network:
+    driver: bridge
