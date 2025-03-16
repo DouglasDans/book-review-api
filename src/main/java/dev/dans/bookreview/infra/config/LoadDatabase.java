@@ -23,6 +23,17 @@ public class LoadDatabase {
     @Bean
     CommandLineRunner initDatabase(UserRepository userRepository) {
         return args -> {
+            try{
+                UserDTO user = userService.findById(1L);
+
+                if (user == null || user.getEmail().equals("admin@admin.com")) {
+                    return;
+                }
+            } catch (Exception e){
+                logger.info("Preloading initial data");
+
+            }
+
             UserDTO userDTO = new UserDTO();
             userDTO.setName("Admin");
             userDTO.setEmail("admin@admin.com");
