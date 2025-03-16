@@ -1,9 +1,14 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
+    url: jdbc:${PGURL}
     username: ${PGUSER}
     password: ${PGPASSWORD}
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: update
+security:
+  config:
+    prefix: Bearer
+    key: ${AUTH_KEY}
+    expiration: 3600000
